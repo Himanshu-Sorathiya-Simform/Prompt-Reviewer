@@ -154,7 +154,7 @@ app.post('/api/review', async (req, res) => {
 
 	try {
 		const response = await ai.models.generateContent({
-			model: 'gemini-2.0-flash',
+			model: 'gemini-3.5-flash',
 			contents: `Please review this prompt:\n\n${prompt.trim()}`,
 			config: {
 				systemInstruction: SYSTEM_PROMPT,
