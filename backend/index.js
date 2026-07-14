@@ -34,6 +34,32 @@ function isRateLimitError(error) {
 	);
 }
 
+// ─── Overhead Token Cache ──────────────────────────────────────────────────────────
+// The system prompt + wrapper text contribute a fixed number of tokens to every
+// request. We count them once on the first successful call and cache the result
+// so we can subtract them from promptTokenCount and show users only their
+// own prompt’s token cost.
+
+let overheadTokenCount = null;
+
+async function getOverheadTokenCount(model) {
+	if (overheadTokenCount !== null) return overheadTokenCount;
+
+	try {
+		const result = await ai.models.countTokens({
+			model,
+			contents: 'Please review this prompt:\n\n',
+			config: { systemInstruction: SYSTEM_PROMPT },
+		});
+		overheadTokenCount = result.totalTokens;
+	} catch {
+		// If counting fails, fall back to 0 so the response is still returned
+		overheadTokenCount = 0;
+	}
+
+	return overheadTokenCount;
+}
+
 // ─── System Prompt ────────────────────────────────────────────────────────────
 // Instructs the model to REVIEW the submitted text as content, never execute it.
 
@@ -175,7 +201,6 @@ app.post('/api/review', async (req, res) => {
 		});
 	}
 
-
 	while (currentModelIndex < models.length) {
 		const model = models[currentModelIndex];
 
@@ -192,9 +217,19 @@ app.post('/api/review', async (req, res) => {
 
 			const report = JSON.parse(response.text);
 
+			const { promptTokenCount, candidatesTokenCount, totalTokenCount, thoughtsTokenCount } =
+				response.usageMetadata;
+			const overhead = await getOverheadTokenCount(model);
+
 			return res.status(200).json({
 				success: true,
 				data: report,
+				usage: {
+					userPromptTokens: promptTokenCount - overhead,
+					outputTokens: candidatesTokenCount,
+					thoughtTokens: thoughtsTokenCount ?? 0,
+					totalTokens: totalTokenCount,
+				},
 			});
 		} catch (error) {
 			const rateLimited = isRateLimitError(error);
