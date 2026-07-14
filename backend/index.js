@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+import { models } from './constants/models.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -10,6 +11,28 @@ const PORT = process.env.PORT || 5000;
 // ─── Gemini Client ────────────────────────────────────────────────────────────
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// ─── Model Fallback State ─────────────────────────────────────────────────────
+// Tracks the active model across requests. When a model hits its rate limit,
+// the index advances so all subsequent requests use the next model in the list.
+
+let currentModelIndex = 0;
+
+/**
+ * Returns true when the Gemini SDK error signals a rate-limit / quota exhaustion
+ * so we know to fall back to the next model rather than surfacing an error.
+ */
+function isRateLimitError(error) {
+	const message = (error?.message ?? '').toLowerCase();
+	const status = error?.status ?? error?.code ?? '';
+	return (
+		status === 429 ||
+		status === 'RESOURCE_EXHAUSTED' ||
+		message.includes('resource_exhausted') ||
+		message.includes('rate limit') ||
+		message.includes('quota')
+	);
+}
 
 // ─── System Prompt ────────────────────────────────────────────────────────────
 // Instructs the model to REVIEW the submitted text as content, never execute it.
@@ -152,31 +175,55 @@ app.post('/api/review', async (req, res) => {
 		});
 	}
 
-	try {
-		const response = await ai.models.generateContent({
-			model: 'gemini-3.5-flash',
-			contents: `Please review this prompt:\n\n${prompt.trim()}`,
-			config: {
-				systemInstruction: SYSTEM_PROMPT,
-				responseMimeType: 'application/json',
-				responseSchema: RESPONSE_SCHEMA,
-			},
-		});
 
-		const report = JSON.parse(response.text);
+	while (currentModelIndex < models.length) {
+		const model = models[currentModelIndex];
 
-		return res.status(200).json({
-			success: true,
-			data: report,
-		});
-	} catch (error) {
-		console.error('Gemini API error:', error);
+		try {
+			const response = await ai.models.generateContent({
+				model,
+				contents: `Please review this prompt:\n\n${prompt.trim()}`,
+				config: {
+					systemInstruction: SYSTEM_PROMPT,
+					responseMimeType: 'application/json',
+					responseSchema: RESPONSE_SCHEMA,
+				},
+			});
 
-		// Surface a clean error without leaking internals
-		return res.status(502).json({
-			success: false,
-			message: 'Failed to get a response from the AI model. Please try again.',
-		});
+			const report = JSON.parse(response.text);
+
+			return res.status(200).json({
+				success: true,
+				data: report,
+			});
+		} catch (error) {
+			const rateLimited = isRateLimitError(error);
+
+			if (rateLimited && currentModelIndex < models.length - 1) {
+				console.warn(
+					`[Model Fallback] "${model}" is rate-limited. Switching to "${models[currentModelIndex + 1]}".`,
+				);
+				currentModelIndex++;
+				// Continue the while-loop to retry with the new model
+			} else {
+				console.error(`Gemini API error on model "${model}":`, error);
+
+				if (rateLimited) {
+					// All models exhausted
+					return res.status(503).json({
+						success: false,
+						message:
+							'All available AI models are currently rate-limited. Please try again later.',
+					});
+				}
+
+				return res.status(502).json({
+					success: false,
+					message:
+						'Failed to get a response from the AI model. Please try again.',
+				});
+			}
+		}
 	}
 });
 
