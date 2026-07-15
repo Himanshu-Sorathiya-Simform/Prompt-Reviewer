@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens — Light (default) ──────────────────────────────────────── */
+
+@theme {
+	/* Surface */
+	--color-surface: oklch(0.985 0 0);
+	--color-surface-raised: oklch(0.97 0.003 265);
+	--color-surface-tinted: oklch(0.94 0.018 265);
+	--color-surface-overlay: oklch(0.92 0.008 265);
+
+	/* Content */
+	--color-content-primary: oklch(0.18 0.012 265);
+	--color-content-secondary: oklch(0.38 0.012 265);
+	--color-content-muted: oklch(0.58 0.01 265);
+	--color-content-inverted: oklch(0.985 0 0);
+
+	/* Brand */
+	--color-brand: oklch(0.52 0.22 268);
+	--color-brand-hover: oklch(0.45 0.22 268);
+	--color-brand-subtle: oklch(0.94 0.04 268);
+
+	/* Border */
+	--color-border: oklch(0.88 0.006 265);
+	--color-border-strong: oklch(0.74 0.01 265);
+
+	/* Skill Level */
+	--color-skill-beginner: oklch(0.58 0.22 27);
+	--color-skill-beginner-bg: oklch(0.96 0.04 27);
+	--color-skill-developing: oklch(0.62 0.18 55);
+	--color-skill-developing-bg: oklch(0.96 0.04 55);
+	--color-skill-intermediate: oklch(0.52 0.18 245);
+	--color-skill-intermediate-bg: oklch(0.93 0.04 245);
+	--color-skill-advanced: oklch(0.5 0.2 145);
+	--color-skill-advanced-bg: oklch(0.93 0.04 145);
+	--color-skill-expert: oklch(0.5 0.22 300);
+	--color-skill-expert-bg: oklch(0.94 0.04 300);
+
+	/* Score Ring */
+	--color-score-low: oklch(0.58 0.22 27);
+	--color-score-mid-low: oklch(0.62 0.18 55);
+	--color-score-mid: oklch(0.68 0.16 85);
+	--color-score-high: oklch(0.5 0.2 145);
+	--color-score-peak: oklch(0.5 0.22 300);
+
+	/* Severity */
+	--color-severity-high: oklch(0.55 0.22 27);
+	--color-severity-high-bg: oklch(0.97 0.025 27);
+	--color-severity-high-border: oklch(0.7 0.18 27);
+	--color-severity-medium: oklch(0.6 0.18 55);
+	--color-severity-medium-bg: oklch(0.97 0.025 55);
+	--color-severity-medium-border: oklch(0.76 0.14 55);
+	--color-severity-low: oklch(0.52 0.07 250);
+	--color-severity-low-bg: oklch(0.96 0.015 250);
+	--color-severity-low-border: oklch(0.72 0.07 250);
+
+	/* Skeleton */
+	--color-skeleton-base: oklch(0.92 0.003 265);
+	--color-skeleton-shimmer: oklch(0.97 0.002 265);
+
+	/* Status */
+	--color-error: oklch(0.54 0.22 27);
+	--color-error-bg: oklch(0.97 0.025 27);
+	--color-error-border: oklch(0.78 0.14 27);
+	--color-success: oklch(0.5 0.2 145);
+
+	/* Typography */
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ─── Dark Mode Overrides ───────────────────────────────────────────────────── */
+
+[data-theme="dark"] {
+	--color-surface: oklch(0.13 0.018 268);
+	--color-surface-raised: oklch(0.17 0.022 268);
+	--color-surface-tinted: oklch(0.21 0.03 268);
+	--color-surface-overlay: oklch(0.23 0.022 268);
+
+	--color-content-primary: oklch(0.94 0.005 265);
+	--color-content-secondary: oklch(0.72 0.01 265);
+	--color-content-muted: oklch(0.52 0.01 265);
+	--color-content-inverted: oklch(0.13 0.018 268);
+
+	--color-brand: oklch(0.68 0.2 268);
+	--color-brand-hover: oklch(0.74 0.2 268);
+	--color-brand-subtle: oklch(0.22 0.045 268);
+
+	--color-border: oklch(0.28 0.018 268);
+	--color-border-strong: oklch(0.4 0.018 268);
+
+	--color-skill-beginner-bg: oklch(0.22 0.06 27);
+	--color-skill-developing-bg: oklch(0.22 0.06 55);
+	--color-skill-intermediate-bg: oklch(0.22 0.05 245);
+	--color-skill-advanced-bg: oklch(0.22 0.05 145);
+	--color-skill-expert-bg: oklch(0.22 0.06 300);
+
+	--color-severity-high-bg: oklch(0.2 0.05 27);
+	--color-severity-high-border: oklch(0.45 0.16 27);
+	--color-severity-medium-bg: oklch(0.2 0.05 55);
+	--color-severity-medium-border: oklch(0.5 0.14 55);
+	--color-severity-low-bg: oklch(0.2 0.02 250);
+	--color-severity-low-border: oklch(0.42 0.07 250);
+
+	--color-skeleton-base: oklch(0.22 0.018 268);
+	--color-skeleton-shimmer: oklch(0.28 0.018 268);
+
+	--color-error-bg: oklch(0.2 0.05 27);
+	--color-error-border: oklch(0.42 0.16 27);
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		/* Smooth theme transitions on all color-bearing properties */
+		transition:
+			background-color 0.25s ease,
+			color 0.25s ease,
+			border-color 0.25s ease;
+	}
+
+	body {
+		background-color: var(--color-surface);
+		color: var(--color-content-primary);
+		font-family: var(--font-sans);
+		min-height: 100dvh;
+	}
+
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: var(--color-border-strong);
+		border-radius: 999px;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-content-muted);
+	}
+
+	textarea {
+		resize: none;
+		field-sizing: content;
+	}
+}
+
+/* ─── Utilities ─────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+	/* Skeleton shimmer */
+	.skeleton-pulse {
+		background: linear-gradient(
+			90deg,
+			var(--color-skeleton-base) 25%,
+			var(--color-skeleton-shimmer) 50%,
+			var(--color-skeleton-base) 75%
+		);
+		background-size: 200% 100%;
+		animation: skeleton-shimmer 1.6s ease-in-out infinite;
+	}
+
+	@keyframes skeleton-shimmer {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
+	/* Score ring arc animation */
+	.ring-transition {
+		transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Analysis section mount animation */
+	@keyframes fade-slide-in {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-slide-in {
+		animation: fade-slide-in 0.35s ease-out forwards;
+	}
+}
