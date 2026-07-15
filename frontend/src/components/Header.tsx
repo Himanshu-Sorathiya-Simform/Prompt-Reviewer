@@ -40,7 +40,7 @@ export default function Header() {
 						aria-label={
 							isDark ? "Switch to light mode" : "Switch to dark mode"
 						}
-						className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-content-secondary transition-colors hover:bg-surface-raised hover:text-content-primary"
+						className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-content-secondary transition-colors hover:bg-surface-raised hover:text-content-primary cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 					>
 						{isDark ?
 							<Sun className="h-4 w-4" aria-hidden="true" />

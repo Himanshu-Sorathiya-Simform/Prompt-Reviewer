@@ -40,7 +40,7 @@ export default function IssuesList({ issues }: IssuesListProps) {
 				<button
 					type="button"
 					onClick={() => setShowAll((prev) => !prev)}
-					className="mt-4 text-sm font-medium text-brand transition-colors hover:text-brand-hover"
+					className="mt-4 text-sm font-medium text-brand transition-colors hover:text-brand-hover cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-md px-1"
 				>
 					{showAll ?
 						"Show fewer ↑"

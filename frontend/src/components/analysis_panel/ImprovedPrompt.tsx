@@ -27,7 +27,7 @@ export default function ImprovedPrompt({
 	return (
 		<div className="rounded-xl border border-brand/20 bg-brand/[0.06] backdrop-blur-sm">
 			{/* Header */}
-			<div className="flex items-center justify-between border-b border-brand/15 px-4 py-3">
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand/15 px-4 py-3">
 				<div className="flex items-center gap-2">
 					<Sparkles
 						className="h-4 w-4 text-brand"
@@ -38,7 +38,7 @@ export default function ImprovedPrompt({
 					</h3>
 				</div>
 
-				<div className="flex items-center gap-2">
+				<div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
 					<span className="text-xs tabular-nums text-content-muted">
 						{charCount.toLocaleString()} chars
 					</span>
@@ -50,7 +50,7 @@ export default function ImprovedPrompt({
 						aria-label={
 							copied ? "Copied to clipboard" : "Copy improved prompt"
 						}
-						className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-content-secondary transition-colors hover:bg-surface-overlay hover:text-content-primary"
+						className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-content-secondary transition-colors hover:bg-surface-overlay hover:text-content-primary cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 					>
 						{copied ?
 							<>
@@ -74,7 +74,7 @@ export default function ImprovedPrompt({
 					<button
 						type="button"
 						onClick={() => onReplaceOriginal(improvedPrompt)}
-						className="flex items-center gap-1.5 rounded-md bg-brand px-2.5 py-1.5 text-xs font-semibold text-content-inverted transition-colors hover:bg-brand-hover"
+						className="flex items-center gap-1.5 rounded-md bg-brand px-2.5 py-1.5 text-xs font-semibold text-content-inverted transition-colors hover:bg-brand-hover cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1"
 					>
 						<ArrowRight
 							className="h-3.5 w-3.5"

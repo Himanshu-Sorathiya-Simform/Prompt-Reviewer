@@ -76,7 +76,7 @@ export default function EmptyState({ onSelectExample }: EmptyStateProps) {
 							key={example.label}
 							type="button"
 							onClick={() => onSelectExample(example.prompt)}
-							className="w-full rounded-xl border border-border bg-surface-raised p-4 text-left transition-all hover:border-brand hover:bg-brand-subtle hover:shadow-sm"
+							className="w-full rounded-xl border border-border bg-surface-raised p-4 text-left transition-all hover:border-brand hover:bg-brand-subtle hover:shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
 						>
 							<div className="mb-2 flex items-center justify-between">
 								<span className="text-xs font-semibold text-content-secondary">
