@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Issue } from "../types/index";
+import type { Issue } from "../../types/index";
 import IssueCard from "./IssueCard";
 
 interface IssuesListProps {

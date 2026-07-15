@@ -1,4 +1,4 @@
-import type { ExamplePrompt } from "../types";
+import type { ExamplePrompt } from "../../types";
 
 interface EmptyStateProps {
 	onSelectExample: (prompt: string) => void;

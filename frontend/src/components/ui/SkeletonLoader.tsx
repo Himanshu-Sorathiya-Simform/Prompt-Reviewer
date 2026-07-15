@@ -1,6 +1,4 @@
-function SkeletonLine({ className }: { className: string }) {
-	return <div className={`skeleton-pulse rounded ${className}`} />;
-}
+import SkeletonLine from "./SkeletonLine";
 
 export default function SkeletonLoader() {
 	return (

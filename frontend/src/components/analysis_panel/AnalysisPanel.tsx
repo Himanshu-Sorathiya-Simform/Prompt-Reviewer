@@ -1,30 +1,12 @@
-import useReview from "../hooks/useReview";
+import useReview from "../../hooks/useReview";
+import ErrorBanner from "../ui/ErrorBanner";
+import SectionDivider from "../ui/SectionDivider";
+import SkeletonLoader from "../ui/SkeletonLoader";
 import AiDisclaimer from "./AiDisclaimer";
-import ErrorBanner from "./ErrorBanner";
 import ImprovedPrompt from "./ImprovedPrompt";
 import IssuesList from "./IssuesList";
 import Scoreboard from "./Scoreboard";
-import SkeletonLoader from "./SkeletonLoader";
 import SuggestionsList from "./SuggestionsList";
-
-interface SectionDividerProps {
-	label: string;
-}
-
-function SectionDivider({ label }: SectionDividerProps) {
-	return (
-		<div
-			className="flex items-center gap-3"
-			aria-hidden="true"
-		>
-			<div className="h-px flex-1 bg-border" />
-			<span className="text-xs font-semibold uppercase tracking-widest text-content-muted">
-				{label}
-			</span>
-			<div className="h-px flex-1 bg-border" />
-		</div>
-	);
-}
 
 export default function AnalysisPanel() {
 	const {

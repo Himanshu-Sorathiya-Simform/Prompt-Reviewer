@@ -1,6 +1,6 @@
-import AnalysisSection from "./components/AnalysisPanel";
+import AnalysisPanel from "./components/analysis_panel/AnalysisPanel";
 import Header from "./components/Header";
-import InputSection from "./components/InputPanel";
+import InputPanel from "./components/input_panel/InputPanel";
 import { ReviewProvider } from "./context/ReviewContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -11,8 +11,8 @@ function App() {
 				<div className="flex min-h-dvh flex-col bg-surface font-sans">
 					<Header />
 					<main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">
-						<InputSection />
-						<AnalysisSection />
+						<InputPanel />
+						<AnalysisPanel />
 					</main>
 				</div>
 			</ReviewProvider>

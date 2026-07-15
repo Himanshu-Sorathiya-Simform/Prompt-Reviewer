@@ -1,4 +1,4 @@
-import { createContext, useCallback, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useState, type ReactNode } from "react";
 import { buildReviewRequest } from "../api/reviewApi";
 import useFetch from "../hooks/useFetch";
 import type {
@@ -6,20 +6,8 @@ import type {
 	ReviewApiResponse,
 	ReviewReport,
 	UsageMetadata,
-} from "../types/index";
-
-/* ─── Helper ──────────────────────────────────────────────────────────────── */
-
-function deriveAppState(
-	loading: boolean,
-	error: string | null,
-	data: ReviewApiResponse | null,
-): AppState {
-	if (loading) return "loading";
-	if (error) return "error";
-	if (data?.success) return "success";
-	return "idle";
-}
+} from "../types";
+import { deriveAppState } from "../utils";
 
 /* ─── Context Shape ───────────────────────────────────────────────────────── */
 
@@ -53,9 +41,6 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 		useFetch<ReviewApiResponse>();
 
 	const appState = deriveAppState(loading, error, data);
-	const appStateRef = useRef(appState);
-
-	appStateRef.current = appState;
 
 	const isRateLimited = statusCode === 429;
 	const rateLimitReset =
@@ -81,18 +66,9 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 		[reset],
 	);
 
-	const setPromptText = useCallback(
-		(text: string) => {
-			setPromptTextRaw(text);
-			// Clear fetch state when user edits prompt after a completed result.
-			// Using a ref avoids stale closure while keeping reset out of deps.
-			const current = appStateRef.current;
-			if (current === "success" || current === "error") {
-				reset();
-			}
-		},
-		[reset],
-	);
+	const setPromptText = useCallback((text: string) => {
+		setPromptTextRaw(text);
+	}, []);
 
 	const value: ReviewContextValue = {
 		promptText,
