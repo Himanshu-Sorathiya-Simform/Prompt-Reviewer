@@ -1,75 +1,108 @@
-# React + TypeScript + Vite
+# PromptLens — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Tailwind CSS v4 single-page application for the AI Prompt Reviewer.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+| Layer      | Technology                                             |
+| ---------- | ------------------------------------------------------ |
+| Framework  | React 19                                               |
+| Language   | TypeScript (strict)                                    |
+| Styling    | Tailwind CSS v4 (`@theme` tokens, no hardcoded colors) |
+| Build Tool | Vite 8                                                 |
+| Linting    | ESLint + typescript-eslint                             |
+| Formatting | Prettier                                               |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev        # Dev server → http://localhost:5173
+npm run build      # Production build
+npm run lint       # ESLint
+npm run format     # Prettier
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Architecture
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### State Management — Context
+
+All state is managed via two React Contexts:
+
+| Context         | Responsibility                                                                        |
+| --------------- | ------------------------------------------------------------------------------------- |
+| `ThemeContext`  | Light/dark theme toggle, persists to `localStorage`, applies `data-theme` on `<html>` |
+| `ReviewContext` | Owns the data fetching lifecycle (`useFetch`), all handlers, and derived `appState`   |
+
+Components consume context via typed hooks (`useTheme`, `useReview`). **No prop drilling.**
+
+### Data Fetching — `useFetch`
+
+A generic, demand-driven hook that manages `loading / data / error / statusCode / responseHeaders` state. The hook knows nothing about the review domain — it just executes a given fetch request and exposes the result. `ReviewContext` wires the domain logic on top.
+
+### `AppState` derivation
+
+`appState` is **derived inline** from `useFetch` state — no `useEffect` sync:
+
+```ts
+function deriveAppState(loading, error, data): AppState {
+	if (loading) return "loading";
+	if (error) return "error";
+	if (data?.success) return "success";
+	return "idle";
+}
+```
+
+---
+
+## Folder Structure
 
 ```
+src/
+├── App.tsx                     ← Thin layout shell (ThemeProvider + ReviewProvider)
+├── main.tsx                    ← Entry point
+│
+├── styles/
+│   └── index.css               ← Tailwind @theme tokens + dark mode overrides
+│
+├── types/
+│   └── index.ts                ← All TypeScript interfaces and types
+│
+├── api/
+│   └── reviewApi.ts            ← Request builder (config only, no fetch call)
+│
+├── context/
+│   ├── ThemeContext.tsx         ← Theme state + localStorage persistence
+│   └── ReviewContext.tsx       ← Review data + useFetch + all handlers
+│
+├── hooks/
+│   ├── useFetch.ts             ← Generic fetch hook
+│   ├── useTheme.ts             ← Typed ThemeContext hook
+│   └── useReview.ts     ← Typed ReviewContext hook
+│
+└── components/
+    ├── Header.tsx               ← App header + theme toggle button
+    ├── InputPanel.tsx           ← InputSection (3 private sub-components)
+    ├── AnalysisPanel.tsx        ← AnalysisSection (conditionally rendered)
+    ├── Scoreboard.tsx           ← Score ring + skill badge + summary
+    ├── ScoreRing.tsx            ← SVG circular progress ring
+    ├── IssuesList.tsx           ← Collapsible issues list
+    ├── IssueCard.tsx            ← Individual issue with severity border
+    ├── SuggestionsList.tsx      ← Checklist of suggestions
+    ├── ImprovedPrompt.tsx       ← Solid-glassmorphism improved prompt box
+    ├── SkeletonLoader.tsx       ← Loading skeleton matching result layout
+    ├── ErrorBanner.tsx          ← Error display with rate-limit countdown
+    └── AiDisclaimer.tsx         ← One-line AI accuracy disclaimer
+```
+
+---
+
+## Design System
+
+All colors, typography, and spacing are defined as Tailwind v4 `@theme` tokens in `styles/index.css`. Zero hardcoded color values in component JSX. Dark mode overrides via `[data-theme="dark"]` selector.
