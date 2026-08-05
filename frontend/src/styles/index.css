@@ -4,20 +4,16 @@
 @theme {
 	/* Surface */
 	--color-surface: #ffffff;
-	--color-surface-raised: #ffffff;
 	--color-surface-tinted: #f3f4f6;
-	--color-surface-overlay: #ffffff;
 
 	/* Content */
 	--color-content-primary: #000000;
 	--color-content-secondary: #4b5563;
 	--color-content-muted: #6b7280;
-	--color-content-inverted: #ffffff;
 
 	/* Brand (Pure Black) */
 	--color-brand: #000000;
 	--color-brand-hover: #374151;
-	--color-brand-subtle: #e5e7eb;
 
 	/* Border */
 	--color-border: #e5e7eb;

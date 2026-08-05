@@ -1,9 +1,5 @@
-/* ─── Skill Level ─────────────────────────────────────────────────────────── */
-
 export type SkillLevel =
 	"Beginner" | "Developing" | "Intermediate" | "Advanced" | "Expert";
-
-/* ─── Issue ───────────────────────────────────────────────────────────────── */
 
 export type IssueType =
 	| "clarity"
@@ -21,8 +17,6 @@ export interface Issue {
 	severity: Severity;
 	description: string;
 }
-
-/* ─── API Response ────────────────────────────────────────────────────────── */
 
 export interface ReviewReport {
 	score: number;
@@ -46,18 +40,9 @@ export interface ReviewApiResponse {
 	usage: UsageMetadata;
 }
 
-export interface ApiErrorResponse {
-	success: false;
-	message: string;
-}
-
 /* ─── App State ───────────────────────────────────────────────────────────── */
 
 export type AppState = "idle" | "loading" | "success" | "error";
-
-/* ─── Theme ───────────────────────────────────────────────────────────────── */
-
-export type Theme = "light" | "dark";
 
 /* ─── Example Prompts ─────────────────────────────────────────────────────── */
 
