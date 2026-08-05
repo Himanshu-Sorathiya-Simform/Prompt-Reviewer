@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import useReview from "../../hooks/useReview";
+import { useReview } from "../../context/ReviewContext";
 import PromptHeader from "./PromptHeader";
 import PromptTextarea from "./PromptTextarea";
 import PromptToolbar from "./PromptToolbar";
@@ -29,6 +29,7 @@ export default function InputPanel() {
 			onSubmit={handleFormSubmit}
 			noValidate
 			aria-label="Prompt input"
+			className="flex h-full flex-col"
 		>
 			<PromptHeader />
 			<PromptTextarea

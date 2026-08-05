@@ -34,7 +34,6 @@ export default function ScoreRing({ score }: ScoreRingProps) {
 				className="-rotate-90"
 				aria-hidden="true"
 			>
-				{/* Background track */}
 				<circle
 					cx={CENTER}
 					cy={CENTER}
@@ -43,7 +42,6 @@ export default function ScoreRing({ score }: ScoreRingProps) {
 					strokeWidth={STROKE_WIDTH}
 					className="stroke-border"
 				/>
-				{/* Colored progress arc */}
 				<circle
 					cx={CENTER}
 					cy={CENTER}
@@ -57,9 +55,8 @@ export default function ScoreRing({ score }: ScoreRingProps) {
 					style={{ stroke: "currentColor" }}
 				/>
 			</svg>
-			{/* Score number centered inside ring */}
 			<span
-				className={`absolute text-3xl font-bold tabular-nums ${colorClass}`}
+				className="absolute text-4xl font-bold tracking-tighter text-content-primary"
 				aria-label={`Score: ${score} out of 10`}
 			>
 				{score}

@@ -1,27 +1,22 @@
-import { severityConfig, typeLabels } from "../../constants/config";
-import type { Issue } from "../../types/index";
+import { typeLabels } from "../../constants/config";
+import type { Issue } from "../../types";
 
 interface IssueCardProps {
 	issue: Issue;
 }
 
 export default function IssueCard({ issue }: IssueCardProps) {
-	const config = severityConfig[issue.severity];
-
 	return (
-		<div
-			className={`border-l-4 py-3 pl-4 ${config.borderClass}`}
-			role="listitem"
-		>
-			<div className="mb-1.5 flex flex-wrap items-center gap-2">
-				<span className={`text-xs font-semibold ${config.textClass}`}>
-					{config.label}
+		<div className="flex flex-col gap-2 pb-6 border-b border-border/50 last:border-0 last:pb-0">
+			<div className="flex items-center gap-3">
+				<span className="text-xs font-bold uppercase tracking-widest text-content-primary">
+					[{issue.severity}]
 				</span>
-				<span className="text-content-muted">·</span>
-				<span className="text-xs font-medium text-content-muted">
+				<span className="text-xs font-medium uppercase tracking-widest text-content-muted">
 					{typeLabels[issue.type]}
 				</span>
 			</div>
+
 			<p className="text-sm leading-relaxed text-content-secondary">
 				{issue.description}
 			</p>

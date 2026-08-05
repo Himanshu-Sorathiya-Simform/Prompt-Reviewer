@@ -1,4 +1,10 @@
-import { createContext, useCallback, useState, type ReactNode } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useState,
+	type ReactNode,
+} from "react";
 import { buildReviewRequest } from "../api/reviewApi";
 import useFetch from "../hooks/useFetch";
 import type {
@@ -8,8 +14,6 @@ import type {
 	UsageMetadata,
 } from "../types";
 import { deriveAppState } from "../utils";
-
-/* ─── Context Shape ───────────────────────────────────────────────────────── */
 
 export interface ReviewContextValue {
 	promptText: string;
@@ -26,9 +30,7 @@ export interface ReviewContextValue {
 	handleReplaceOriginal: (text: string) => void;
 }
 
-export const ReviewContext = createContext<ReviewContextValue | null>(null);
-
-/* ─── Provider ────────────────────────────────────────────────────────────── */
+const ReviewContext = createContext<ReviewContextValue | null>(null);
 
 interface ReviewProviderProps {
 	children: ReactNode;
@@ -86,4 +88,13 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 	};
 
 	return <ReviewContext.Provider value={value}>{children}</ReviewContext.Provider>;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useReview(): ReviewContextValue {
+	const context = useContext(ReviewContext);
+	if (!context) {
+		throw new Error("useReview must be used within a ReviewProvider");
+	}
+	return context;
 }

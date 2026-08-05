@@ -7,7 +7,6 @@ export default function SkeletonLoader() {
 			aria-label="Loading analysis…"
 			aria-busy="true"
 		>
-			{/* Scoreboard skeleton */}
 			<div className="flex items-start gap-5">
 				<div className="skeleton-pulse h-[136px] w-[136px] shrink-0 rounded-full" />
 				<div className="flex-1 space-y-3 pt-3">
@@ -18,10 +17,8 @@ export default function SkeletonLoader() {
 				</div>
 			</div>
 
-			{/* Section divider skeleton */}
 			<SkeletonLine className="h-px w-full" />
 
-			{/* Issues skeleton */}
 			<div className="space-y-4">
 				{[0, 1, 2].map((i) => (
 					<div
@@ -37,10 +34,8 @@ export default function SkeletonLoader() {
 				))}
 			</div>
 
-			{/* Section divider skeleton */}
 			<SkeletonLine className="h-px w-full" />
 
-			{/* Suggestions skeleton */}
 			<div className="space-y-3">
 				{[0, 1, 2].map((i) => (
 					<div
@@ -53,10 +48,8 @@ export default function SkeletonLoader() {
 				))}
 			</div>
 
-			{/* Section divider skeleton */}
 			<SkeletonLine className="h-px w-full" />
 
-			{/* Improved prompt skeleton */}
 			<SkeletonLine className="h-36 w-full rounded-xl" />
 		</div>
 	);

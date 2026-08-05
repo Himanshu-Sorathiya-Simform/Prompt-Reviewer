@@ -1,34 +1,26 @@
-import { skillConfig } from "../../constants/config";
 import type { SkillLevel } from "../../types";
-import Badge from "../ui/Badge";
-import ScoreRing from "./ScoreRing";
 
 interface ScoreboardProps {
 	score: number;
 	skillLevel: SkillLevel;
-	summary: string;
 }
 
-export default function Scoreboard({ score, skillLevel, summary }: ScoreboardProps) {
-	const skill = skillConfig[skillLevel];
+export default function Scoreboard({ score, skillLevel }: ScoreboardProps) {
+	const scaledScore = Math.min(Math.max(Math.round(score * 10), 0), 100);
 
 	return (
-		<div className="flex items-center gap-6">
-			<ScoreRing score={score} />
+		<div className="flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-6">
+			<div className="flex items-baseline gap-2">
+				<span className="text-6xl font-bold tracking-tight text-content-primary">
+					{scaledScore}
+				</span>
+				<span className="text-xl font-medium text-content-muted">/ 100</span>
+			</div>
 
-			<div className="flex-1 min-w-0">
-				<Badge
-					textClass={skill.textClass}
-					bgClass={skill.bgClass}
-				>
-					{skillLevel}
-				</Badge>
-				<p className="mt-1 text-xs font-medium uppercase tracking-wider text-content-muted">
-					Score {score} / 10
-				</p>
-				<p className="mt-2 text-sm leading-relaxed text-content-secondary italic">
-					&ldquo;{summary}&rdquo;
-				</p>
+			<div className="flex items-center">
+				<span className="text-lg font-medium text-content-secondary capitalize">
+					{skillLevel.toLowerCase()} Level
+				</span>
 			</div>
 		</div>
 	);

@@ -4,19 +4,22 @@ interface PromptTextareaProps {
 	isLoading: boolean;
 }
 
-export default function PromptTextarea({ value, onChange, isLoading }: PromptTextareaProps) {
+export default function PromptTextarea({
+	value,
+	onChange,
+	isLoading,
+}: PromptTextareaProps) {
 	return (
-		<div className="group relative">
+		<div className="flex-1 flex flex-col min-h-[250px] mb-4">
 			<textarea
 				id="prompt-input"
 				name="prompt"
 				value={value}
 				onChange={(e) => onChange(e.target.value)}
 				disabled={isLoading}
-				placeholder="e.g. You are a senior engineer. Explain how to implement..."
-				rows={6}
+				placeholder="Enter your prompt here..."
 				aria-label="Enter your prompt for review"
-				className="w-full min-h-40 rounded-xl border border-border bg-surface-raised px-4 py-4 text-sm leading-relaxed text-content-primary placeholder:text-content-muted transition-colors focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none disabled:opacity-60"
+				className="flex-1 w-full h-full p-4 text-[15px] font-sans leading-relaxed text-content-primary placeholder:text-content-muted/60 focus:outline-none disabled:opacity-60 bg-surface-tinted resize-none rounded-md border border-transparent focus:border-border transition-colors"
 				spellCheck
 			/>
 		</div>

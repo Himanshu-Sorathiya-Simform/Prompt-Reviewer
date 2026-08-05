@@ -1,15 +1,13 @@
 export default function PromptHeader() {
 	return (
-		<div className="mb-3">
+		<div className="flex items-center justify-between pb-2 mb-2">
 			<label
 				htmlFor="prompt-input"
-				className="block text-lg font-semibold text-content-primary"
+				className="text-xl font-bold text-content-primary"
 			>
-				Your Prompt
+				Prompt
 			</label>
-			<p className="mt-0.5 text-sm text-content-muted">
-				Paste any AI prompt and get a detailed quality review.
-			</p>
+			<span className="text-xs text-content-muted">Awaiting input</span>
 		</div>
 	);
 }

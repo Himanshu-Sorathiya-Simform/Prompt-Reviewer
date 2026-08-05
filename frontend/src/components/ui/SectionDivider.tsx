@@ -4,15 +4,10 @@ interface SectionDividerProps {
 
 export default function SectionDivider({ label }: SectionDividerProps) {
 	return (
-		<div
-			className="flex items-center gap-3"
-			aria-hidden="true"
-		>
-			<div className="h-px flex-1 bg-border" />
-			<span className="text-xs font-semibold uppercase tracking-widest text-content-muted">
+		<div className="border-b-2 border-border-strong pb-1 mb-6 mt-12 first:mt-0">
+			<span className="text-sm font-bold uppercase tracking-widest text-content-primary">
 				{label}
 			</span>
-			<div className="h-px flex-1 bg-border" />
 		</div>
 	);
 }

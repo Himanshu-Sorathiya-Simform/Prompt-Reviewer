@@ -1,46 +1,52 @@
 import type { IssueType, Severity, SkillLevel } from "../types/index";
 
-export const skillConfig: Record<SkillLevel, { textClass: string; bgClass: string }> = {
+export const skillConfig: Record<
+	SkillLevel,
+	{ textClass: string; bgClass: string }
+> = {
 	Beginner: {
-		textClass: "text-skill-beginner",
-		bgClass: "bg-skill-beginner-bg",
+		textClass: "text-score-low",
+		bgClass: "bg-error-bg",
 	},
 	Developing: {
-		textClass: "text-skill-developing",
-		bgClass: "bg-skill-developing-bg",
+		textClass: "text-score-mid-low",
+		bgClass: "bg-severity-medium-bg",
 	},
 	Intermediate: {
-		textClass: "text-skill-intermediate",
-		bgClass: "bg-skill-intermediate-bg",
+		textClass: "text-score-mid",
+		bgClass: "bg-severity-medium-bg",
 	},
 	Advanced: {
-		textClass: "text-skill-advanced",
-		bgClass: "bg-skill-advanced-bg",
+		textClass: "text-score-high",
+		bgClass: "bg-severity-low-bg",
 	},
 	Expert: {
-		textClass: "text-skill-expert",
-		bgClass: "bg-skill-expert-bg",
+		textClass: "text-score-peak",
+		bgClass: "bg-severity-low-bg",
 	},
 };
 
 export const severityConfig: Record<
 	Severity,
-	{ label: string; borderClass: string; textClass: string }
+	{ label: string; borderClass: string; textClass: string; bgClass: string }
 > = {
 	high: {
 		label: "High",
-		borderClass: "border-l-severity-high-border",
+		borderClass: "ring-severity-high-border",
 		textClass: "text-severity-high",
+		bgClass: "bg-severity-high-bg",
 	},
 	medium: {
 		label: "Medium",
-		borderClass: "border-l-severity-medium-border",
+		borderClass: "ring-severity-medium-border",
 		textClass: "text-severity-medium",
+		bgClass: "bg-severity-medium-bg",
 	},
 	low: {
 		label: "Low",
-		borderClass: "border-l-severity-low-border",
+		borderClass: "ring-severity-low-border",
 		textClass: "text-severity-low",
+		bgClass: "bg-severity-low-bg",
 	},
 };
 
