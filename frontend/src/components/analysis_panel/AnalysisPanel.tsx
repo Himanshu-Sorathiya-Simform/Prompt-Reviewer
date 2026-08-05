@@ -13,7 +13,7 @@ function AnalysisPanel() {
 		appState,
 		report,
 		errorMessage,
-		isRateLimited,
+		statusCode,
 		rateLimitReset,
 		handleReplaceOriginal,
 	} = useReview();
@@ -34,7 +34,7 @@ function AnalysisPanel() {
 				<div className="py-8">
 					<ErrorBanner
 						message={errorMessage ?? "An unexpected error occurred."}
-						isRateLimited={isRateLimited}
+						statusCode={statusCode}
 						rateLimitReset={rateLimitReset}
 					/>
 				</div>

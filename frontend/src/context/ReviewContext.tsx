@@ -6,7 +6,6 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import { buildReviewRequest } from "../utils/apiUtils";
 import useFetch from "../hooks/useFetch";
 import type {
 	AppState,
@@ -14,6 +13,7 @@ import type {
 	ReviewReport,
 	UsageMetadata,
 } from "../types/appTypes";
+import { buildReviewRequest } from "../utils/apiUtils";
 import { deriveAppState } from "../utils/appUtils";
 
 interface ReviewContextValue {
@@ -23,7 +23,7 @@ interface ReviewContextValue {
 	report: ReviewReport | null;
 	usage: UsageMetadata | null;
 	errorMessage: string | null;
-	isRateLimited: boolean;
+	statusCode: number | null;
 	rateLimitReset: number | null;
 	isLoading: boolean;
 	handleSubmit: () => void;
@@ -88,7 +88,7 @@ function ReviewProvider({ children }: ReviewProviderProps) {
 		report: data?.data ?? null,
 		usage: data?.usage ?? null,
 		errorMessage: error,
-		isRateLimited,
+		statusCode,
 		rateLimitReset,
 		isLoading: loading,
 		handleSubmit,

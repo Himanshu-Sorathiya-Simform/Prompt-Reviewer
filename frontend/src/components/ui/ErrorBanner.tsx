@@ -4,22 +4,24 @@ import { computeRemaining, formatCountdown } from "../../utils/appUtils";
 
 interface ErrorBannerProps {
 	message: string;
-	isRateLimited: boolean;
+	statusCode: number | null;
 	rateLimitReset?: number | null;
 }
 
 function ErrorBanner({
 	message,
-	isRateLimited,
+	statusCode,
 	rateLimitReset,
 }: ErrorBannerProps) {
+	const isUserRateLimited = statusCode === 429;
+
 	const [secondsLeft, setSecondsLeft] = useState<number | null>(() => {
-		if (!isRateLimited || !rateLimitReset) return null;
+		if (!isUserRateLimited || !rateLimitReset) return null;
 		return computeRemaining(rateLimitReset);
 	});
 
 	useEffect(() => {
-		if (!isRateLimited || !rateLimitReset) return;
+		if (!isUserRateLimited || !rateLimitReset) return;
 
 		const interval = setInterval(() => {
 			const remaining = computeRemaining(rateLimitReset);
@@ -28,7 +30,25 @@ function ErrorBanner({
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [isRateLimited, rateLimitReset]);
+	}, [isUserRateLimited, rateLimitReset]);
+
+	const getErrorTitle = () => {
+		switch (statusCode) {
+			case 400:
+				return "Bad Request";
+			case 404:
+				return "Not Found";
+			case 429:
+				return "Rate limit reached";
+			case 502:
+				return "Bad Gateway";
+			case 503:
+				return "Service Unavailable";
+			case 500:
+			default:
+				return "Something went wrong";
+		}
+	};
 
 	return (
 		<div
@@ -42,35 +62,21 @@ function ErrorBanner({
 				/>
 
 				<div className="flex-1">
-					{isRateLimited ?
-						<>
-							<p className="font-semibold text-error">
-								Rate limit reached
-							</p>
-							<p className="mt-1 text-sm text-content-secondary">
-								You&apos;ve used all 15 reviews for this hour.
-								{secondsLeft !== null && secondsLeft > 0 && (
-									<>
-										{" "}
-										Your limit resets in{" "}
-										<span className="font-semibold tabular-nums text-content-primary">
-											{formatCountdown(secondsLeft)}
-										</span>
-										.
-									</>
-								)}
-								{secondsLeft === 0 && " You can try again now."}
-							</p>
-						</>
-					:	<>
-							<p className="font-semibold text-error">
-								Something went wrong
-							</p>
-							<p className="mt-1 text-sm text-content-secondary">
-								{message}
-							</p>
-						</>
-					}
+					<p className="font-semibold text-error">{getErrorTitle()}</p>
+					<p className="mt-1 text-sm text-content-secondary">
+						{message}
+						{isUserRateLimited && secondsLeft !== null && secondsLeft > 0 && (
+							<>
+								{" "}
+								Your limit resets in{" "}
+								<span className="font-semibold tabular-nums text-content-primary">
+									{formatCountdown(secondsLeft)}
+								</span>
+								.
+							</>
+						)}
+						{isUserRateLimited && secondsLeft === 0 && " You can try again now."}
+					</p>
 				</div>
 			</div>
 		</div>
