@@ -4,11 +4,7 @@ interface PromptTextareaProps {
 	isLoading: boolean;
 }
 
-function PromptTextarea({
-	value,
-	onChange,
-	isLoading,
-}: PromptTextareaProps) {
+function PromptTextarea({ value, onChange, isLoading }: PromptTextareaProps) {
 	return (
 		<div className="flex-1 flex flex-col min-h-[250px] mb-4">
 			<textarea

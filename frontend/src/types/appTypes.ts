@@ -1,5 +1,4 @@
-type SkillLevel =
-	"Beginner" | "Developing" | "Intermediate" | "Advanced" | "Expert";
+type SkillLevel = "Beginner" | "Developing" | "Intermediate" | "Advanced" | "Expert";
 
 type IssueType =
 	| "clarity"
@@ -53,13 +52,13 @@ interface ExamplePrompt {
 }
 
 export type {
-	SkillLevel,
-	IssueType,
-	Severity,
-	Issue,
-	ReviewReport,
-	UsageMetadata,
-	ReviewApiResponse,
 	AppState,
 	ExamplePrompt,
+	Issue,
+	IssueType,
+	ReviewApiResponse,
+	ReviewReport,
+	Severity,
+	SkillLevel,
+	UsageMetadata,
 };

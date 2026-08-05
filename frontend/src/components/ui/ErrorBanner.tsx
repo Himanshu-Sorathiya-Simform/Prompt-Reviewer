@@ -8,11 +8,7 @@ interface ErrorBannerProps {
 	rateLimitReset?: number | null;
 }
 
-function ErrorBanner({
-	message,
-	statusCode,
-	rateLimitReset,
-}: ErrorBannerProps) {
+function ErrorBanner({ message, statusCode, rateLimitReset }: ErrorBannerProps) {
 	const isUserRateLimited = statusCode === 429;
 
 	const [secondsLeft, setSecondsLeft] = useState<number | null>(() => {
@@ -65,17 +61,21 @@ function ErrorBanner({
 					<p className="font-semibold text-error">{getErrorTitle()}</p>
 					<p className="mt-1 text-sm text-content-secondary">
 						{message}
-						{isUserRateLimited && secondsLeft !== null && secondsLeft > 0 && (
-							<>
-								{" "}
-								Your limit resets in{" "}
-								<span className="font-semibold tabular-nums text-content-primary">
-									{formatCountdown(secondsLeft)}
-								</span>
-								.
-							</>
-						)}
-						{isUserRateLimited && secondsLeft === 0 && " You can try again now."}
+						{isUserRateLimited
+							&& secondsLeft !== null
+							&& secondsLeft > 0 && (
+								<>
+									{" "}
+									Your limit resets in{" "}
+									<span className="font-semibold tabular-nums text-content-primary">
+										{formatCountdown(secondsLeft)}
+									</span>
+									.
+								</>
+							)}
+						{isUserRateLimited
+							&& secondsLeft === 0
+							&& " You can try again now."}
 					</p>
 				</div>
 			</div>

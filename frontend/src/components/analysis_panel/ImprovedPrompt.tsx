@@ -6,10 +6,7 @@ interface ImprovedPromptProps {
 	onReplaceOriginal: (prompt: string) => void;
 }
 
-function ImprovedPrompt({
-	improvedPrompt,
-	onReplaceOriginal,
-}: ImprovedPromptProps) {
+function ImprovedPrompt({ improvedPrompt, onReplaceOriginal }: ImprovedPromptProps) {
 	const [isCopied, setIsCopied] = useState(false);
 
 	const handleCopy = async () => {

@@ -25,7 +25,7 @@ function AnalysisPanel() {
 	return (
 		<div className="animate-fade-slide-in flex flex-col pt-12 border-t border-border mt-8">
 			{appState === "loading" && (
-				<div className="py-8">
+				<div>
 					<SkeletonLoader />
 				</div>
 			)}
