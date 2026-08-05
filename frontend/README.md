@@ -33,14 +33,13 @@ npm run format     # Prettier
 
 ### State Management — Context
 
-All state is managed via two React Contexts:
+All state is managed via a single React Context:
 
 | Context         | Responsibility                                                                        |
 | --------------- | ------------------------------------------------------------------------------------- |
-| `ThemeContext`  | Light/dark theme toggle, persists to `localStorage`, applies `data-theme` on `<html>` |
 | `ReviewContext` | Owns the data fetching lifecycle (`useFetch`), all handlers, and derived `appState`   |
 
-Components consume context via typed hooks (`useTheme`, `useReview`). **No prop drilling.**
+Components consume context via typed hooks (e.g. `useReview`). **No prop drilling.**
 
 ### Data Fetching — `useFetch`
 
@@ -65,44 +64,57 @@ function deriveAppState(loading, error, data): AppState {
 
 ```
 src/
-├── App.tsx                     ← Thin layout shell (ThemeProvider + ReviewProvider)
+├── App.tsx                     ← Thin layout shell (ReviewProvider)
 ├── main.tsx                    ← Entry point
 │
 ├── styles/
-│   └── index.css               ← Tailwind @theme tokens + dark mode overrides
+│   └── index.css               ← Tailwind @theme tokens
 │
 ├── types/
-│   └── index.ts                ← All TypeScript interfaces and types
+│   └── appTypes.ts             ← All TypeScript interfaces and types
 │
 ├── api/
 │   └── reviewApi.ts            ← Request builder (config only, no fetch call)
 │
 ├── context/
-│   ├── ThemeContext.tsx         ← Theme state + localStorage persistence
 │   └── ReviewContext.tsx       ← Review data + useFetch + all handlers
 │
 ├── hooks/
-│   ├── useFetch.ts             ← Generic fetch hook
-│   ├── useTheme.ts             ← Typed ThemeContext hook
-│   └── useReview.ts     ← Typed ReviewContext hook
+│   └── useFetch.ts             ← Generic fetch hook
+│
+├── constants/
+│   ├── configConstants.ts      ← Domain configuration
+│   └── exampleConstants.ts     ← Example prompts
+│
+├── utils/
+│   ├── apiUtils.ts             ← Utilities for processing headers
+│   └── appUtils.ts             ← Common app logic utilities
 │
 └── components/
-    ├── Header.tsx               ← App header + theme toggle button
-    ├── InputPanel.tsx           ← InputSection (3 private sub-components)
-    ├── AnalysisPanel.tsx        ← AnalysisSection (conditionally rendered)
-    ├── Scoreboard.tsx           ← Score ring + skill badge + summary
-    ├── ScoreRing.tsx            ← SVG circular progress ring
-    ├── IssuesList.tsx           ← Collapsible issues list
-    ├── IssueCard.tsx            ← Individual issue with severity border
-    ├── SuggestionsList.tsx      ← Checklist of suggestions
-    ├── ImprovedPrompt.tsx       ← Solid-glassmorphism improved prompt box
-    ├── SkeletonLoader.tsx       ← Loading skeleton matching result layout
-    ├── ErrorBanner.tsx          ← Error display with rate-limit countdown
-    └── AiDisclaimer.tsx         ← One-line AI accuracy disclaimer
+    ├── Header.tsx               ← Minimal app header
+    ├── input_panel/
+    │   ├── InputPanel.tsx       ← Container for the input section
+    │   ├── PromptHeader.tsx     ← Header with state feedback
+    │   ├── PromptTextarea.tsx   ← Auto-resizing text area
+    │   └── PromptToolbar.tsx    ← Action buttons and token usage
+    │
+    ├── analysis_panel/
+    │   ├── AnalysisPanel.tsx    ← Analysis layout container
+    │   ├── Scoreboard.tsx       ← Clean typography score + skill badge
+    │   ├── IssueCard.tsx        ← Diagnostics mapping with severity
+    │   ├── SuggestionsList.tsx  ← Flat checklist of suggestions
+    │   ├── ImprovedPrompt.tsx   ← Revised prompt box with copy button
+    │   └── AiDisclaimer.tsx     ← One-line AI accuracy disclaimer
+    │
+    └── ui/
+        ├── ErrorBanner.tsx      ← Error display with rate-limit countdown
+        ├── SectionDivider.tsx   ← Simple labeled horizontal rule
+        ├── SkeletonLine.tsx     ← Base atomic animated skeleton component
+        └── SkeletonLoader.tsx   ← Loading skeleton matching the minimal result layout
 ```
 
 ---
 
 ## Design System
 
-All colors, typography, and spacing are defined as Tailwind v4 `@theme` tokens in `styles/index.css`. Zero hardcoded color values in component JSX. Dark mode overrides via `[data-theme="dark"]` selector.
+All colors, typography, and spacing are defined as Tailwind v4 `@theme` tokens in `styles/index.css`. Zero hardcoded color values in component JSX. The UI uses an ultra-minimalist single-column stacked layout with a clean Manrope font.

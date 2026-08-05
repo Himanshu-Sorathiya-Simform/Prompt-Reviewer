@@ -6,26 +6,25 @@
 
 ## What It Does
 
-PromptLens evaluates your AI prompts against quality dimensions like clarity, specificity, structure, context, and goal alignment. It uses Google Gemini to return a structured report with:
+PromptLens evaluates your AI prompts against quality dimensions like clarity, specificity, structure, context, and goal alignment. It uses Groq (Llama 3 models) to return a structured report with:
 
-- **Score (1–10)** with a visual progress ring
-- **Skill level badge** (Beginner → Expert)
-- **Summary** of the prompt's overall quality
-- **Issue list** with severity levels (High / Medium / Low)
-- **Actionable suggestions** to improve
-- **Improved prompt** — a rewritten version you can copy or iterate on
+- **Score (1–100)** with a clean typographic display
+- **Skill level** (Beginner → Expert)
+- **Executive Summary** of the prompt's overall quality
+- **Diagnostics list** mapping specific issues with severity levels (High / Medium / Low)
+- **Actionable recommendations** to improve
+- **Revised prompt** — a rewritten version you can copy or iterate on
 
 ---
 
 ## Features
 
-- **Single-column stacked UI** — clean writing surface, results appear below
+- **Ultra-minimalist single-column UI** — clean writing surface, flat design layout
 - **Example prompts** — 3 clickable chips using real React prompts
-- **Light + Dark mode** with persistence to `localStorage`
-- **Token usage** — shows how many tokens your prompt used
+- **Token usage** — shows how many tokens your prompt used directly in the toolbar
 - **Rate limit countdown** — 15 reviews/hr, shows reset timer when limit is hit
-- **Seamless model fallback** — backend automatically switches Gemini models on quota exhaustion
-- **Skeleton loading** — matches the result layout exactly
+- **Seamless model fallback** — backend automatically switches Groq Llama models on quota exhaustion
+- **Skeleton loading** — precisely matches the clean minimal result layout
 
 ---
 
@@ -52,7 +51,7 @@ See full setup in each sub-project:
 
 ```
 Prompt-Reviewer/
-├── backend/          ← Express API (Node.js + Gemini)
+├── backend/          ← Express API (Node.js + Groq SDK)
 ├── frontend/         ← React 19 + Tailwind v4 SPA
 └── README.md
 ```

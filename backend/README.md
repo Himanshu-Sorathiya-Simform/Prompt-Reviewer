@@ -1,6 +1,6 @@
 # PromptLens — Backend
 
-Express API that powers the AI prompt review service. Accepts a user prompt and returns a structured quality report via the Gemini API.
+Express API that powers the AI prompt review service. Accepts a user prompt and returns a structured quality report via the Groq API (Llama models).
 
 ---
 
@@ -10,7 +10,7 @@ Express API that powers the AI prompt review service. Accepts a user prompt and 
 |---|---|
 | Runtime | Node.js (ES Modules) |
 | Framework | Express v5 |
-| AI | `@google/genai` (Gemini) |
+| AI | `groq-sdk` (Groq / Llama 3) |
 | Rate Limiting | `express-rate-limit` |
 | Dev Server | `nodemon` |
 
@@ -26,11 +26,11 @@ npm install
 ### 2. Configure environment
 Create a `.env` file in `backend/`:
 ```env
-GEMINI_API_KEY=your_api_key_here
+GROQ_API_KEY=your_api_key_here
 PORT=5000
 ```
 
-Get your API key at [aistudio.google.com](https://aistudio.google.com/app/apikey).
+Get your API key at [console.groq.com/keys](https://console.groq.com/keys).
 
 ### 3. Run the dev server
 ```bash
@@ -89,7 +89,7 @@ Submits a prompt for AI quality review.
 |---|---|
 | `400` | Missing or empty `prompt` field |
 | `429` | Rate limit exceeded (15 req/hr) |
-| `502` | Gemini API returned an unexpected error |
+| `502` | Groq API returned an unexpected error |
 | `503` | All fallback models are rate-limited |
 
 ---
@@ -104,7 +104,7 @@ Submits a prompt for AI quality review.
 
 ## Model Fallback
 
-The server maintains a prioritised list of Gemini models in `constants/models.js`. When a model returns a `RESOURCE_EXHAUSTED` (quota exceeded) error, the server automatically retries with the next model in the list. The frontend sees a single seamless response — no error is surfaced until all models are exhausted.
+The server maintains a prioritised list of Groq Llama models in `constants/models.js`. When a model returns a 429 status or `rate_limit_exceeded` error, the server automatically retries with the next model in the list. The frontend sees a single seamless response — no error is surfaced until all models are exhausted.
 
 ---
 
@@ -113,8 +113,13 @@ The server maintains a prioritised list of Gemini models in `constants/models.js
 ```
 backend/
 ├── index.js              ← Express app, single POST /api/review route
-├── constants/
-│   └── models.js         ← Ordered list of fallback Gemini model IDs
-├── .env                  ← GEMINI_API_KEY, PORT (not committed)
+├── src/
+│   ├── constants/
+│   │   └── models.js     ← Ordered list of fallback Groq model IDs
+│   ├── controllers/      ← Request/Response handling
+│   ├── middlewares/      ← Rate limiting and error handlers
+│   ├── routes/           ← API Route definitions
+│   └── services/         ← AI logic (Groq API interaction)
+├── .env                  ← GROQ_API_KEY, PORT (not committed)
 └── package.json
 ```
