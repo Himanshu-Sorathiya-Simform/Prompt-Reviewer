@@ -4,7 +4,7 @@ import PromptHeader from "./PromptHeader";
 import PromptTextarea from "./PromptTextarea";
 import PromptToolbar from "./PromptToolbar";
 
-export default function InputPanel() {
+function InputPanel() {
 	const {
 		promptText,
 		setPromptText,
@@ -49,3 +49,5 @@ export default function InputPanel() {
 		</form>
 	);
 }
+
+export default InputPanel;

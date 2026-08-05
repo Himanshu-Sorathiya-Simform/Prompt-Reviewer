@@ -1,6 +1,6 @@
 import { AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { computeRemaining, formatCountdown } from "../../utils/index";
+import { computeRemaining, formatCountdown } from "../../utils/appUtils";
 
 interface ErrorBannerProps {
 	message: string;
@@ -8,7 +8,7 @@ interface ErrorBannerProps {
 	rateLimitReset?: number | null;
 }
 
-export default function ErrorBanner({
+function ErrorBanner({
 	message,
 	isRateLimited,
 	rateLimitReset,
@@ -76,3 +76,5 @@ export default function ErrorBanner({
 		</div>
 	);
 }
+
+export default ErrorBanner;

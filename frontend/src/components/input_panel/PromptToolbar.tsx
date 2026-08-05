@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { EXAMPLES } from "../../constants/examples";
+import { EXAMPLES } from "../../constants/exampleConstants";
 
 interface PromptToolbarProps {
 	charCount: number;
@@ -11,7 +11,7 @@ interface PromptToolbarProps {
 	onSelectExample: (prompt: string) => void;
 }
 
-export default function PromptToolbar({
+function PromptToolbar({
 	charCount,
 	promptTokens,
 	isEmpty,
@@ -97,3 +97,5 @@ export default function PromptToolbar({
 		</div>
 	);
 }
+
+export default PromptToolbar;

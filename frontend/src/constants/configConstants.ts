@@ -1,6 +1,6 @@
-import type { IssueType } from "../types/index";
+import type { IssueType } from "../types/appTypes";
 
-export const typeLabels: Record<IssueType, string> = {
+const typeLabels: Record<IssueType, string> = {
 	clarity: "Clarity",
 	specificity: "Specificity",
 	structure: "Structure",
@@ -9,3 +9,5 @@ export const typeLabels: Record<IssueType, string> = {
 	safety: "Safety",
 	other: "Other",
 };
+
+export { typeLabels };

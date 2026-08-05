@@ -1,11 +1,11 @@
-import type { SkillLevel } from "../../types";
+import type { SkillLevel } from "../../types/appTypes";
 
 interface ScoreboardProps {
 	score: number;
 	skillLevel: SkillLevel;
 }
 
-export default function Scoreboard({ score, skillLevel }: ScoreboardProps) {
+function Scoreboard({ score, skillLevel }: ScoreboardProps) {
 	const scaledScore = Math.min(Math.max(Math.round(score * 10), 0), 100);
 
 	return (
@@ -25,3 +25,5 @@ export default function Scoreboard({ score, skillLevel }: ScoreboardProps) {
 		</div>
 	);
 }
+
+export default Scoreboard;

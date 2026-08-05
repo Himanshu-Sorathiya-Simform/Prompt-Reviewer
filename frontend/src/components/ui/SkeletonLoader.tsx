@@ -1,6 +1,6 @@
 import SkeletonLine from "./SkeletonLine";
 
-export default function SkeletonLoader() {
+function SkeletonLoader() {
 	return (
 		<div
 			className="animate-pulse space-y-8 pt-2"
@@ -54,3 +54,5 @@ export default function SkeletonLoader() {
 		</div>
 	);
 }
+
+export default SkeletonLoader;

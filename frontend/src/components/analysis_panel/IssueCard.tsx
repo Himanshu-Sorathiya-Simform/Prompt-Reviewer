@@ -1,11 +1,11 @@
-import { typeLabels } from "../../constants/config";
-import type { Issue } from "../../types";
+import { typeLabels } from "../../constants/configConstants";
+import type { Issue } from "../../types/appTypes";
 
 interface IssueCardProps {
 	issue: Issue;
 }
 
-export default function IssueCard({ issue }: IssueCardProps) {
+function IssueCard({ issue }: IssueCardProps) {
 	return (
 		<div className="flex flex-col gap-2 pb-6 border-b border-border/50 last:border-0 last:pb-0">
 			<div className="flex items-center gap-3">
@@ -23,3 +23,5 @@ export default function IssueCard({ issue }: IssueCardProps) {
 		</div>
 	);
 }
+
+export default IssueCard;

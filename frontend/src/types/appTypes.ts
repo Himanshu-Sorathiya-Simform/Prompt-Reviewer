@@ -1,7 +1,7 @@
-export type SkillLevel =
+type SkillLevel =
 	"Beginner" | "Developing" | "Intermediate" | "Advanced" | "Expert";
 
-export type IssueType =
+type IssueType =
 	| "clarity"
 	| "specificity"
 	| "structure"
@@ -10,15 +10,15 @@ export type IssueType =
 	| "safety"
 	| "other";
 
-export type Severity = "low" | "medium" | "high";
+type Severity = "low" | "medium" | "high";
 
-export interface Issue {
+interface Issue {
 	type: IssueType;
 	severity: Severity;
 	description: string;
 }
 
-export interface ReviewReport {
+interface ReviewReport {
 	score: number;
 	skillLevel: SkillLevel;
 	summary: string;
@@ -27,14 +27,14 @@ export interface ReviewReport {
 	improvedPrompt: string;
 }
 
-export interface UsageMetadata {
+interface UsageMetadata {
 	userPromptTokens: number;
 	outputTokens: number;
 	thoughtTokens: number;
 	totalTokens: number;
 }
 
-export interface ReviewApiResponse {
+interface ReviewApiResponse {
 	success: true;
 	data: ReviewReport;
 	usage: UsageMetadata;
@@ -42,12 +42,24 @@ export interface ReviewApiResponse {
 
 /* ─── App State ───────────────────────────────────────────────────────────── */
 
-export type AppState = "idle" | "loading" | "success" | "error";
+type AppState = "idle" | "loading" | "success" | "error";
 
 /* ─── Example Prompts ─────────────────────────────────────────────────────── */
 
-export interface ExamplePrompt {
+interface ExamplePrompt {
 	label: string;
 	badge: SkillLevel;
 	prompt: string;
 }
+
+export type {
+	SkillLevel,
+	IssueType,
+	Severity,
+	Issue,
+	ReviewReport,
+	UsageMetadata,
+	ReviewApiResponse,
+	AppState,
+	ExamplePrompt,
+};

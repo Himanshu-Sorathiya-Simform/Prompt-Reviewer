@@ -8,7 +8,7 @@ import IssueCard from "./IssueCard";
 import Scoreboard from "./Scoreboard";
 import SuggestionsList from "./SuggestionsList";
 
-export default function AnalysisPanel() {
+function AnalysisPanel() {
 	const {
 		appState,
 		report,
@@ -99,3 +99,5 @@ export default function AnalysisPanel() {
 		</div>
 	);
 }
+
+export default AnalysisPanel;

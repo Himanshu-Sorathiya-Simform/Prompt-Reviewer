@@ -2,7 +2,7 @@ interface SuggestionsListProps {
 	suggestions: string[];
 }
 
-export default function SuggestionsList({ suggestions }: SuggestionsListProps) {
+function SuggestionsList({ suggestions }: SuggestionsListProps) {
 	if (suggestions.length === 0) {
 		return null;
 	}
@@ -20,3 +20,5 @@ export default function SuggestionsList({ suggestions }: SuggestionsListProps) {
 		</ul>
 	);
 }
+
+export default SuggestionsList;

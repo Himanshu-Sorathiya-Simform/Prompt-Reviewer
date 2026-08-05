@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env["VITE_BACKEND_URL"];
 
-export function buildReviewRequest(prompt: string): {
+function buildReviewRequest(prompt: string): {
 	url: string;
 	options: RequestInit;
 } {
@@ -15,3 +15,5 @@ export function buildReviewRequest(prompt: string): {
 		},
 	};
 }
+
+export { buildReviewRequest };

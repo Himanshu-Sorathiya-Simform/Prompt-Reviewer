@@ -1,6 +1,6 @@
 import { useReview } from "../../context/ReviewContext";
 
-export default function PromptHeader() {
+function PromptHeader() {
 	const { appState } = useReview();
 
 	const stateText: Record<string, string> = {
@@ -24,3 +24,5 @@ export default function PromptHeader() {
 		</div>
 	);
 }
+
+export default PromptHeader;

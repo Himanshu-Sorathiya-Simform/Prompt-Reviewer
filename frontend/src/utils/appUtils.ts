@@ -1,6 +1,6 @@
-import type { AppState, ReviewApiResponse } from "../types/index";
+import type { AppState, ReviewApiResponse } from "../types/appTypes";
 
-export function deriveAppState(
+function deriveAppState(
 	loading: boolean,
 	error: string | null,
 	data: ReviewApiResponse | null,
@@ -11,13 +11,15 @@ export function deriveAppState(
 	return "idle";
 }
 
-export function formatCountdown(seconds: number): string {
+function formatCountdown(seconds: number): string {
 	const m = Math.floor(seconds / 60);
 	const s = seconds % 60;
 	if (m > 0) return `${m}m ${s}s`;
 	return `${s}s`;
 }
 
-export function computeRemaining(resetTimestamp: number): number {
+function computeRemaining(resetTimestamp: number): number {
 	return Math.max(0, Math.ceil(resetTimestamp - Date.now() / 1000));
 }
+
+export { deriveAppState, formatCountdown, computeRemaining };

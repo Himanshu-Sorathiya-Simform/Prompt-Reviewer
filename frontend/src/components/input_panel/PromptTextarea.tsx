@@ -4,7 +4,7 @@ interface PromptTextareaProps {
 	isLoading: boolean;
 }
 
-export default function PromptTextarea({
+function PromptTextarea({
 	value,
 	onChange,
 	isLoading,
@@ -25,3 +25,5 @@ export default function PromptTextarea({
 		</div>
 	);
 }
+
+export default PromptTextarea;

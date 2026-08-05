@@ -1,6 +1,6 @@
 import { Info } from "lucide-react";
 
-export default function AiDisclaimer() {
+function AiDisclaimer() {
 	return (
 		<p
 			className="flex items-center gap-1.5 text-xs text-content-muted"
@@ -15,3 +15,5 @@ export default function AiDisclaimer() {
 		</p>
 	);
 }
+
+export default AiDisclaimer;

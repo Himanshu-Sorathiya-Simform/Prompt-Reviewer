@@ -6,7 +6,7 @@ interface ImprovedPromptProps {
 	onReplaceOriginal: (prompt: string) => void;
 }
 
-export default function ImprovedPrompt({
+function ImprovedPrompt({
 	improvedPrompt,
 	onReplaceOriginal,
 }: ImprovedPromptProps) {
@@ -58,3 +58,5 @@ export default function ImprovedPrompt({
 		</div>
 	);
 }
+
+export default ImprovedPrompt;

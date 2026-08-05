@@ -1,3 +1,5 @@
-export default function SkeletonLine({ className }: { className: string }) {
+function SkeletonLine({ className }: { className: string }) {
 	return <div className={`skeleton-pulse rounded ${className}`} />;
 }
+
+export default SkeletonLine;

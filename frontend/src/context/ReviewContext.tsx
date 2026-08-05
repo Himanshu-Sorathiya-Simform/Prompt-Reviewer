@@ -6,17 +6,17 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import { buildReviewRequest } from "../api/reviewApi";
+import { buildReviewRequest } from "../utils/apiUtils";
 import useFetch from "../hooks/useFetch";
 import type {
 	AppState,
 	ReviewApiResponse,
 	ReviewReport,
 	UsageMetadata,
-} from "../types";
-import { deriveAppState } from "../utils";
+} from "../types/appTypes";
+import { deriveAppState } from "../utils/appUtils";
 
-export interface ReviewContextValue {
+interface ReviewContextValue {
 	promptText: string;
 	setPromptText: (text: string) => void;
 	appState: AppState;
@@ -37,7 +37,7 @@ interface ReviewProviderProps {
 	children: ReactNode;
 }
 
-export function ReviewProvider({ children }: ReviewProviderProps) {
+function ReviewProvider({ children }: ReviewProviderProps) {
 	const [promptText, setPromptTextRaw] = useState("");
 
 	const { data, loading, error, statusCode, responseHeaders, execute, reset } =
@@ -99,11 +99,14 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 	return <ReviewContext.Provider value={value}>{children}</ReviewContext.Provider>;
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useReview(): ReviewContextValue {
+function useReview(): ReviewContextValue {
 	const context = useContext(ReviewContext);
 	if (!context) {
 		throw new Error("useReview must be used within a ReviewProvider");
 	}
 	return context;
 }
+
+export type { ReviewContextValue };
+// eslint-disable-next-line react-refresh/only-export-components
+export { ReviewProvider, useReview };
