@@ -2,6 +2,7 @@ import {
 	createContext,
 	useCallback,
 	useContext,
+	useEffect,
 	useState,
 	type ReactNode,
 } from "react";
@@ -57,6 +58,7 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 	}, [promptText, execute, reset]);
 
 	const handleReset = useCallback(() => {
+		setPromptTextRaw("");
 		reset();
 	}, [reset]);
 
@@ -71,6 +73,13 @@ export function ReviewProvider({ children }: ReviewProviderProps) {
 	const setPromptText = useCallback((text: string) => {
 		setPromptTextRaw(text);
 	}, []);
+
+	// Clear the analysis data if the prompt is manually emptied
+	useEffect(() => {
+		if (promptText.trim() === "" && data !== null) {
+			reset();
+		}
+	}, [promptText, data, reset]);
 
 	const value: ReviewContextValue = {
 		promptText,

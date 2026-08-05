@@ -19,7 +19,7 @@ export default function PromptTextarea({
 				disabled={isLoading}
 				placeholder="Enter your prompt here..."
 				aria-label="Enter your prompt for review"
-				className="flex-1 w-full h-full p-4 text-[15px] font-sans leading-relaxed text-content-primary placeholder:text-content-muted/60 focus:outline-none disabled:opacity-60 bg-surface-tinted resize-none rounded-md border border-transparent focus:border-border transition-colors"
+				className="flex-1 w-full h-full p-4 text-[15px] font-sans leading-relaxed text-content-primary placeholder:text-content-muted/60 focus:outline-none disabled:opacity-60 bg-surface-tinted resize-none rounded-md border border-border focus:border-brand/30 transition-colors"
 				spellCheck
 			/>
 		</div>
